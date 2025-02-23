@@ -1,18 +1,27 @@
-from pyproj import Proj, transform
+from pyproj import Transformer
 
-# Ствараем праекцыі
-wgs84 = Proj(init="epsg:4326")  # Геаграфічная сістэма WGS84
-utm = Proj(init="epsg:32633")   # UTM зона 33N для Беларусі
+# Ствараем трансформер для зоны UTM 35U
+transformer = Transformer.from_crs("epsg:4326", "epsg:32635", always_xy=True)
 
-# Запытваем у карыстальніка ўвод каардынат
-longitude = float(input("Увядзіце даўгату: "))
-latitude = float(input("Увядзіце шырыню: "))
+while True:
+    try:
+        # Запытваем у карыстальніка ўвод каардынат
+        longitude = float(input("Увядзіце даўгату (градусы, дзесятковыя хвiлiны): "))
+        latitude = float(input("Увядзіце шырыню (градусы, дзесятковыя хвiлiны): "))
 
-# Пераўтвараем каардынаты
-x, y = transform(wgs84, utm, longitude, latitude)
+        # Пераўтвараем каардынаты ў сістэму UTM
+        x, y = transformer.transform(longitude, latitude)
 
-# Выводзім вынік
-print(f"Каардынаты ў сістэме UTM: X = {x}, Y = {y}")
+        # Выводзім вынік
+        print(f"Каардынаты ў сістэме UTM для AutoCAD: X = {x}, Y = {y}")
 
-# Дадаем затрымку, каб акно не закрывалася
-input("Націсніце Enter для закрыцця праграмы...")
+        # Запыты на паўтор
+        repeat = input("Націсніце 'Прабел' для паўтору, альбо 'Enter' для выхаду: ")
+
+        if repeat == '':
+            break  # Закрытие программы при нажатии Enter
+
+    except ValueError:
+        print("Невірны ўвод! Пераканайцеся, што ўводзеце толькі лічбы для даўгаты і шырыні.")
+    except Exception as e:
+        print(f"Адбылася памылка: {e}")

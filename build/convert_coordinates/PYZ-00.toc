@@ -1,4 +1,4 @@
-('C:\\Users\\Admin\\Desktop\\build\\convert_coordinates\\PYZ-00.pyz',
+('C:\\Users\\Admin\\Desktop\\xy\\build\\convert_coordinates\\PYZ-00.pyz',
  [('_compat_pickle',
    'C:\\Users\\Admin\\miniconda3\\Lib\\_compat_pickle.py',
    'PYMODULE'),
